@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body {
+            --baseColor: #c2e59c;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+            background: var(--baseColor);
+            background: linear-gradient(to right, #64b3f4, var(--baseColor));
+        }
+    .names{
+    top: 100px;
+    }
+    </style>
+
+</head>
+<body>
+<div align="center" class="names">
+<h1>
+    <th:block  th:utext="${Name}" />
+    <th:block th:utext="${SecondName}"/>
+    <th:block th:utext="${Patronymic}"/>
+</h1>
+
+
+<form th:action="@{/TransfetMoney}" method="post">
+  <input name="money" type="number" >
+    <select name="currency">
+        <option>USD</option>
+        <option>RUB</option>
+        <option>EUR</option>
+        <option>AED</option>
+
+    </select>
+    <input
+           type="hidden"
+           th:value="${Id}" name="id" />
+   <input type="hidden" th:value="${CardFromMoney}" name="CardFromMoney">
+    <button type="submit" name="submit">Submit</button>
+
+</form >
+    <p th:text="'' + ${name} + ''" />
+</div>
+    </body>
+</html>

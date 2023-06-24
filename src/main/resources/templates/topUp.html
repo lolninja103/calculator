@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <link th:rel="stylesheet" th:href="@{webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <style media="screen">
+
+        @import url('https://fonts.googleapis.com/css?family=Lobster+Two:700|Poppins&display=swap');
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body{
+            background: #048bd9;
+            font-family: 'Poppins',sans-serif;
+        }
+        .outer {
+
+        }
+        .inner {
+            width: 100px;
+            border: 1px solid red;
+            margin: auto;
+        }
+        .center,.start-btn{
+            position: absolute;
+            top: 60%;
+            left: 45%;
+            transform: translate(-50%, -50%);
+        }
+        .start-btn a{
+            font-size: 22px;
+            background: white;
+ top :30%;
+            color: #02242b;
+            padding: 15px 18px;
+            border-radius: 5px;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 1px;
+
+        }
+
+        .center,.transfer-btn{
+            position: absolute;
+            top: 60%;
+            left: 55%;
+            transform: translate(-50%, -50%);
+        }
+        .transfer-btn a{
+            font-size: 22px;
+            background: white;
+            top :30%;
+            color: #02242b;
+            padding: 15px 18px;
+            border-radius: 5px;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 1px;
+
+        }
+        .modal-box{
+            top: 30%;
+            opacity: 0;
+            visibility: hidden;
+            background: white;
+
+            height: auto;
+            width: 480px;
+            padding: 18px 10px;
+            border-radius: 5px;
+            box-shadow: 5px 5px 30px rgba(0,0,0,.2);
+        }
+        .modal-boxx{
+            top: 30%;
+            opacity: 0;
+            visibility: hidden;
+            background: white;
+
+            height: auto;
+            width: 480px;
+            padding: 18px 10px;
+            border-radius: 5px;
+            box-shadow: 5px 5px 30px rgba(0,0,0,.2);
+        }
+        .start-btn.show-modal{
+            opacity: 0;
+            visibility: hidden;
+        }
+        .modal-box.show-modal{
+            top: 50%;
+            opacity: 1;
+            visibility: visible;
+            transition: .4s;
+
+
+        }
+        .transfer-btn.show-modall{
+            opacity: 0;
+            visibility: hidden;
+        }
+        .modal-boxx.show-modall{
+            top: 50%;
+            opacity: 1;
+            visibility: visible;
+            transition: .4s;
+
+        }
+
+
+
+
+        .form_container{
+            background: #fff;
+            padding: 30px;
+            margin-top: 20px;
+            border-radius: 3px;
+        }
+
+        .form_container .form_item{
+            margin-bottom: 25px;
+        }
+
+        .form_container .form_wrap.form_grp{
+            display: flex;
+        }
+
+        .form_container .form_wrap.form_grp .form_item{
+            width: 50%;
+        }
+
+        .form_container .form_wrap.form_grp .form_item:first-child{
+            margin-right: 4%;
+        }
+
+        .form_container .form_item label{
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form_container .form_item input,
+        .form_container .form_item select{
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #dadce0;
+            border-radius: 3px;
+        }
+
+        .form_container .btn input[type="submit"]{
+            background: #6271f0;
+            border: 1px solid #6271f0;
+            padding: 10px;
+            width: 100%;
+            border-radius: 3px;
+            cursor: pointer;
+            color: #fff;
+        }
+        .form_containerr{
+            background: #fff;
+            padding: 30px;
+            margin-top: 20px;
+            border-radius: 3px;
+        }
+        .form_containerr .form_item{
+            margin-bottom: 25px;
+        }
+
+        .form_containerr .form_wrap.form_grp{
+            display: flex;
+        }
+
+        .form_containerr .form_wrap.form_grp .form_item{
+            width: 50%;
+        }
+
+        .form_containerr .form_wrap.form_grp .form_item:first-child{
+            margin-right: 4%;
+        }
+
+        .form_containerr .form_item label{
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form_containerr .form_item input,
+        .form_containerr .form_item select{
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #dadce0;
+            border-radius: 3px;
+        }
+
+        .form_containerr .btn input[type="submit"]{
+            background: #6271f0;
+            border: 1px solid #6271f0;
+            padding: 10px;
+            width: 100%;
+            border-radius: 3px;
+            cursor: pointer;
+            color: #fff;
+        }
+        @import url("https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i");
+        @import url('https://fonts.googleapis.com/css?family=Overpass+Mono');
+
+
+        :root {
+            --purple: #892a92;
+            --purple2: #70217a;
+            --white: #f6d3fd;
+            --height: 222px;
+            --width: 350px;
+            --font: "Overpass Mono", monospaced;
+            --masterFont: "Raleway", sans-serif;
+        }
+
+        body {
+            --baseColor: #c2e59c;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+            background: var(--baseColor);
+            background: linear-gradient(to right, #64b3f4, var(--baseColor));
+        }
+
+        .card {
+            --heightCalc: -calc((var(--height) / 2) - 10px);
+            --widthCalc: calc(var(--width) / 2);
+            height: var(--height);
+            width: var(--width);
+            min-width: var(--width);
+            background: linear-gradient(90deg, var(--purple), var(--purple2));
+            border-radius: 10px;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+            margin: 10px auto;
+            position: relative;
+            filter: drop-shadow(3px 3px 3px rgba(0, 0, 0, 0.6));
+            transform: translateY(calc(50% - 10px));
+        }
+
+        .card__figure {
+            position: relative;
+            height: 40px;
+            margin: 0;
+        }
+
+        .card__figure::after {
+            content: "PLATINUM";
+            font-size: 0.45em;
+            letter-spacing: 4px;
+            color: var(--white);
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            bottom: calc(-100% - 15px);
+        }
+
+        .card__figure--logo {
+            --widthLogo: 130px;
+            width: var(--widthLogo);
+            position: absolute;
+            right: 50%;
+            transform: translate(calc(var(--widthLogo) / 2), 20px);
+        }
+
+        .card__reader {
+            width: 50px;
+            height: 40px;
+            background: radial-gradient(#d9a56c, #b18457);
+            border-radius: 5px;
+            position: absolute;
+            top: 50%;
+            transform: translate(33px, -40px);
+            overflow: hidden;
+        }
+
+        .card__reader--risk {
+            width: 50px;
+            height: 40px;
+            border-radius: 13px;
+            background: transparent;
+            border: 1px solid #666;
+            position: absolute;
+            z-index: 0;
+        }
+
+        .card__reader--risk-one {
+            transform: translate(37px, 15px);
+        }
+
+        .card__reader--risk-two {
+            transform: translate(15px, 30px);
+        }
+
+        .card__reader--risk-three {
+            transform: translate(-37px, -15px);
+        }
+
+        .card__reader--risk-four {
+            transform: translate(-15px, -30px);
+        }
+
+        .card__number {
+            font-family: var(--font);
+            font-family: sans-serif;
+           right: 35px;
+            font-size: 1.15em;
+            font-weight: normal;
+color: #888888;
+            letter-spacing: 2.5px;
+            text-align: center;
+
+            margin-left: -20px;
+            margin-top: 80px;
+            z-index: 1;
+            position: relative;
+            filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.3));
+        }
+
+        .card__number::before,
+        .card__number::after {
+            font-family: Arial;
+            color: rgba(0, 0, 0, 0.4);
+            font-size: 0.4em;
+            position: absolute;
+            letter-spacing: 0px;
+
+        }
+
+        .card__number::before {
+            content: "5032";
+            transform: translate(0px, 100px);
+        }
+
+        .card__number::after {
+            content: "Valid thru";
+            width: 80px;
+
+            transform: translate(0px, 100px);
+        }
+
+        .card__dates {
+            position: absolute;
+
+            width: 40%;
+            font-size: 1.1em;
+            display: flex;
+            justify-content: space-between;
+            color: var(--white);
+            font-family: var(--font);
+            bottom: 22%;
+            transform: translate(60px, 0px);
+            top: 135px;
+        }
+
+        .card__dates span {
+            filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.3));
+        }
+
+        .card__name {
+            font-family: var(--font);
+            font-size: .9em;
+            font-weight: normal;
+            color: var(--white);
+            letter-spacing: 2.5px;
+            transform: translate(35px, 25px);
+            position: relative;
+            filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.3));
+        }
+        .card__user {
+            width: 90%;
+            max-width: 340px;
+            margin: 10vh auto;
+
+        }
+        .card__flag {
+            right: 30px;
+            top: 45%;
+            border-radius: 25px;
+            transform: translate(0, -28px);
+            position: absolute;
+            height: 110px;
+            width: 80px;
+            border: 1px solid rgba(0, 0, 0, 0.3);
+        }
+
+        .card__flag--globe {
+            --margin: 5px;
+            width: calc(100% - (var(--margin) * 2));
+            background-color: #b7b2b8;
+            height: 50%;
+            border-radius: 20px;
+            margin: var(--margin);
+            background: repeating-linear-gradient(
+                    0deg,
+                    #dbd1dc,
+                    #dbd1dc 5px,
+                    #b2aab5 7px,
+                    #b2aab5 5px
+            );
+        }
+
+        .card__flag--globe::after,
+        .card__flag--globe::before {
+            content: "\f0ac";
+            font-family: FontAwesome;
+            color: rgba(0, 0, 0, 0.2);
+            font-size: 3em;
+            top: 6px;
+            left: 2px;
+            position: absolute;
+        }
+
+        .card__flag--globe::after {
+            transform: translateX(10px);
+        }
+
+        .card__flag--globe::before {
+            transform: translateX(25px);
+        }
+
+        .card__repit {
+            width: 130px;
+            height: 40px;
+            color: #fff;
+            left:800px ;
+            top: 150px;
+            border-radius: 5px;
+            padding: 10px 25px;
+            font-family: 'Lato', sans-serif;
+            font-weight: 500;
+            background: transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            display: inline-block;
+            box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
+            7px 7px 20px 0px rgba(0,0,0,.1),
+            4px 4px 5px 0px rgba(0,0,0,.1);
+            outline: none
+
+
+        }
+        .card__currency {
+            position: absolute;
+            color: white;
+            left: 250px;
+            top: 167.5px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+
+        }
+        .card__save {
+            width: 130px;
+            height: 40px;
+            color: #fff;
+            left:1000px ;
+            top: 90px;
+            border-radius: 5px;
+            padding: 10px 25px;
+            font-family: 'Lato', sans-serif;
+            font-weight: 500;
+            background: transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            display: inline-block;
+            box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
+            7px 7px 20px 0px rgba(0,0,0,.1),
+            4px 4px 5px 0px rgba(0,0,0,.1);
+            outline: none;
+
+        &:focus {
+             background-position: right center;         }
+        .card__flag--red {
+            position: absolute;
+            left: 5px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #ce0e1d;
+        }
+
+        .card__flag--yellow {
+            position: absolute;
+            right: 5px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #e39833;
+        }
+        .card__balance{
+right: 600px;
+        }
+
+
+        .card__flag--yellow::after {
+            content: "MasterCard";
+            position: absolute;
+            font-size: 0.7em;
+            top: 50%;
+            transform: translate(-25px, -7px);
+            font-family: var(--masterFont);
+            font-style: italic;
+            font-weight: 800;
+            color: var(--white);
+            filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.5));
+        }
+
+        .assign {
+            text-align: center;
+            margin-top: 113px;
+            font-family: var(--masterFont);
+            color: #fff;
+            font-size: 0.8em;
+            filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.3));
+        }
+
+        .assign a {
+            text-decoration: none;
+            font-weight: 700;
+            color: #FFF;
+        }
+
+        .assign a::hover {
+            color: var(--purple);
+        }
+
+    </style>
+</head>
+<body>
+<div class="card">
+
+    <p style="font: Impact" th:text=" 'balance:'+ ${balance} "></p>
+
+    <figure class="card__figure">
+        <img src="https://conta.nubank.com.br/images/nu-white.png" class="card__figure--logo"></img>
+    </figure>
+    <div class="card__reader">
+        <div class="card__reader--risk card__reader--risk-one"></div>
+        <div class="card__reader--risk card__reader--risk-two"></div>
+        <div class="card__reader--risk card__reader--risk-three"></div>
+        <div class="card__reader--risk card__reader--risk-four"></div>
+    </div>
+    <p class="card__number"  th:text="  ${Number} "/>
+    <div class="card__dates">
+        <p class="card__dates--first" th:text="  ${date} "></p>
+
+    </div>
+    <p class="card__name" th:text="  ${Client} "></p>
+    <p class="card__currency" th:text="  ${Currency} "></p>
+
+
+    <div class="card__flag">
+        <div class="card__flag--globe"></div>
+        <div class="card__flag--red"></div>
+        <div class="card__flag--yellow"></div>
+    </div>
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+    <div class="start-btn">
+    <a href="#">Top up</a>
+</div>
+<div class="transfer-btn">
+    <a href="#">Transfer</a>
+</div>
+<div class="center modal-box">
+
+
+
+
+<div>
+    <div class="form_container">
+        <form th:action="@{/putMoney}" method="post">
+            <input type="number" name="sumn"  class="number">
+            <input class="form-control"
+                   type="hidden"
+                   th:value="${idCard}" id="clientName" name="id" />
+            <button type="submit" class="" >Top up</button>
+        </form >
+
+
+    </div>
+
+
+
+    <div class="form_containerr">
+        <form th:action="@{/transfer}" method="post">
+            <input type="text" name="number"  class="number">
+            <input class="form-control"
+                   type="hidden"
+                   th:value="${idCard}" id="clientName" name="id" />
+            <input type="hidden" th:value="${Number}" name="CardFromMoney" >
+
+            <button type="submit" class="" >Transfer</button>
+        </form>
+    </div>
+</div>
+
+
+
+</div>
+
+
+
+
+<form th:action="@{/filter}" method="post" value="Save">
+    <input type="hidden" name="cardNumber" th:value="${Number}" />
+
+        <select   name="Currency">
+            <option value="" disabled selected hidden>Select currency</option>
+            <option>USD</option>
+            <option>RUB</option>
+            <option>EUR</option>
+            <option>AED</option>
+
+        </select>
+    <br>
+    <label>Amount from <input name="AmountFrom" type="text"></label>
+    <br>
+    <br>
+    <label>Amount up to  <input name="AmountUpTo" type="text"></label>
+    <br>
+    <br>
+    <input type="submit" name="submit" placeholder="Submit">Submit</input>
+
+</form>
+
+
+
+<br>
+<br>
+<br>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-10 mt-5 mb-5">
+            <div style="width: 800px; height: 100px; overflow-y: scroll;">
+            <table id="example" class="table table-bordered" style="width: 100%">
+                <thead>
+                <tr>
+                    <th>SUMN</th>
+                    <th>CURRENCY</th>
+                    <th>DATE</th>
+                    <th>Number depozited</th>
+                    <th>Number took off</th>
+
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr th:each="i : ${histories}">
+                    <td th:text="${i.sumn}">Name</td>
+                    <td th:text="${i.currency}">Position</td>
+                    <td th:text="${i.date}">Office</td>
+                    <td th:text="${i.cardDeposit}">Office</td>
+                    <td th:text="${i.getCardTakeOff}">Office</td>
+                </tr>
+                </tbody>
+            </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+
+<script>
+    $(document).ready(function(){
+        $('.start-btn').click(function(){
+            $('.modal-box').toggleClass("show-modal");
+            $('.start-btn').toggleClass("show-modal");
+        });
+        $('.fa-times').click(function(){
+            $('.modal-box').toggleClass("show-modal");
+            $('.start-btn').toggleClass("show-modal");
+        });
+    });
+</script>
+<script>
+    $(document).ready(function(){
+        $('.transfer-btn').click(function(){
+            $('.modal-boxx').toggleClass("show-modall");
+            $('.transfer-btn').toggleClass("show-modall");
+        });
+        $('.fa-timess').click(function(){
+            $('.modal-boxx').toggleClass("show-modall");
+            $('.transfer-btn').toggleClass("show-modall");
+        });
+    });
+</script>
+
+</body>
+</html>
